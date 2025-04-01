@@ -14,7 +14,14 @@
             "type": "string"
           },
           "model": {
-            "type": "string"
+            "type": "string",
+            "enum": [
+              "gpt-4o",
+              "gpt-4o-mini",
+              "gpt-3.5-turbo",
+              "gpt-3.5-turbo-16k",
+              "gpt-3.5-turbo-16k-mini"
+            ]
           },
           "temperature": {
             "type": "number"
@@ -24,14 +31,72 @@
           },
           "begin_message": {
             "type": "string"
+          },
+          "language": {
+            "type": "string",
+            "enum": [
+              "en-US",
+              "en-IN",
+              "en-GB",
+              "de-DE",
+              "es-ES",
+              "es-419",
+              "hi-IN",
+              "ja-JP",
+              "pt-PT",
+              "pt-BR",
+              "fr-FR",
+              "zh-CN",
+              "ru-RU",
+              "it-IT",
+              "ko-KR",
+              "nl-NL",
+              "pl-PL",
+              "tr-TR",
+              "vi-VN",
+              "multi"
+            ]
+          },
+          "functions": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "enum": [
+                    "end_call",
+                    "transfer_call",
+                    "check_availability_cal",
+                    "book_appointment_cal",
+                    "press_digit",
+                    "custom"
+                  ]
+                },
+                "name": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": "string"
+                },
+                "url": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "type",
+                "name",
+                "description"
+              ]
+            }
           }
         },
         "required": [
           "name",
           "model",
-          "temperature",
           "prompt",
-          "begin_message"
+          "begin_message",
+          "language"
         ]
       }
     }

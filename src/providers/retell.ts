@@ -33,7 +33,14 @@ export const RetellProvider: Provider = {
         model: llm.model,
         prompt: llm.general_prompt,
         begin_message: llm.begin_message,
+        language: agent.language,
         temperature: llm.model_temperature,
+        functions: llm.general_tools?.map(tool => ({
+          type: tool.type,
+          name: tool.name,
+          description: tool.description,
+          url: tool.type === 'custom' ? tool.url : undefined,
+        })),
       } as Agent;
     });
 
@@ -49,6 +56,14 @@ export const RetellProvider: Provider = {
         general_prompt: agent.prompt,
         begin_message: agent.begin_message,
         model_temperature: agent.temperature,
+        general_tools: agent.functions.map(aFunction => ({
+          type: aFunction.type as any,
+          name: aFunction.name,
+          description: aFunction.description,
+          url: aFunction.url,
+          speak_after_execution: aFunction.speak_after_execution,
+          speak_during_execution: aFunction.speak_during_execution,
+        })),
       });
 
       await client.agent.create({
@@ -57,6 +72,7 @@ export const RetellProvider: Provider = {
           type: 'retell-llm',
           llm_id: llm.llm_id,
         },
+        language: agent.language,
         voice_id: 'default',
       });
     }

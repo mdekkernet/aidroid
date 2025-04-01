@@ -1,0 +1,6 @@
+demo
+.eslintrc*
+.editorconfig
+esbuild.config.js
+.prettierrc
+.env

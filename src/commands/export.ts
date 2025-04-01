@@ -14,5 +14,5 @@ export const exportAction =
 
     writeFileSync('agents.yml', document);
 
-    logger.info(agents);
+    logger.info('Wrote file agents.yml');
   };

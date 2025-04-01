@@ -8,9 +8,9 @@
   "license": "MIT",
   "private": false,
   "scripts": {
-    "build": "tsc",
+    "build": "node esbuild.config.js build",
     "start": "node dist/index.js",
-    "dev": "tsc -w",
+    "dev": "node esbuild.config.js dev",
     "clean": "rm -rf dist",
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint . --ext .ts --fix",
@@ -18,7 +18,6 @@
     "format:check": "prettier --check \"src/**/*.ts\""
   },
   "dependencies": {
-    "@types/node": "^22.13.16",
     "commander": "^13.1.0",
     "dotenv": "^16.4.7",
     "retell-sdk": "^4.22.0",
@@ -28,8 +27,11 @@
     "yaml-schema-validator": "^1.2.3"
   },
   "devDependencies": {
+    "@types/node": "^22.13.16",
     "@typescript-eslint/eslint-plugin": "^7.1.0",
     "@typescript-eslint/parser": "^7.1.0",
+    "esbuild": "^0.20.1",
+    "esbuild-node-externals": "^1.18.0",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.1.3",
