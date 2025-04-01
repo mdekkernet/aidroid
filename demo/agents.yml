@@ -1,0 +1,8 @@
+# yaml-language-server: $schema=../schema/schema.json
+
+agents:
+  - name: 'Test Agent'
+    model: 'gpt-3.5-turbo'
+    temperature: 0.5
+    prompt: 'You are a helpful assistant.'
+    begin_message: 'Hello, how can I help you today?'
