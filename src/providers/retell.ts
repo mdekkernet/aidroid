@@ -35,10 +35,14 @@ export const RetellProvider: Provider = {
         begin_message: llm.begin_message,
         language: agent.language,
         temperature: llm.model_temperature,
+        voice_id: agent.voice_id,
+        voice_provider: agent.voice_model,
         functions: llm.general_tools?.map(tool => ({
           type: tool.type,
           name: tool.name,
           description: tool.description,
+          speak_after_execution: tool.type === 'custom' ? tool.speak_after_execution : undefined,
+          speak_during_execution: tool.type === 'custom' ? tool.speak_during_execution : undefined,
           url: tool.type === 'custom' ? tool.url : undefined,
         })),
       } as Agent;
@@ -51,19 +55,21 @@ export const RetellProvider: Provider = {
     const client = createClient();
 
     for (const agent of agents) {
+      const tools = agent.functions.map(aFunction => ({
+        type: aFunction.type as any,
+        name: aFunction.name,
+        description: aFunction.description,
+        url: aFunction.url,
+        speak_after_execution: aFunction.speak_after_execution,
+        speak_during_execution: aFunction.speak_during_execution,
+      }));
+
       const llm = await client.llm.create({
         model: agent.model as any,
         general_prompt: agent.prompt,
         begin_message: agent.begin_message,
         model_temperature: agent.temperature,
-        general_tools: agent.functions.map(aFunction => ({
-          type: aFunction.type as any,
-          name: aFunction.name,
-          description: aFunction.description,
-          url: aFunction.url,
-          speak_after_execution: aFunction.speak_after_execution,
-          speak_during_execution: aFunction.speak_during_execution,
-        })),
+        general_tools: tools,
       });
 
       await client.agent.create({
@@ -73,7 +79,7 @@ export const RetellProvider: Provider = {
           llm_id: llm.llm_id,
         },
         language: agent.language,
-        voice_id: 'default',
+        voice_id: agent.voice_id,
       });
     }
   },

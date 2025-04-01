@@ -4,6 +4,13 @@
   "type": "object",
   "additionalProperties": false,
   "properties": {
+    "provider": {
+      "type": "string",
+      "enum": [
+        "retell",
+        "vapi"
+      ]
+    },
     "agents": {
       "type": "array",
       "items": {
@@ -30,6 +37,9 @@
             "type": "string"
           },
           "begin_message": {
+            "type": "string"
+          },
+          "voice_provider": {
             "type": "string"
           },
           "language": {
@@ -89,19 +99,23 @@
                 "description"
               ]
             }
+          },
+          "voice_id": {
+            "type": "string"
           }
         },
         "required": [
           "name",
           "model",
           "prompt",
-          "begin_message",
-          "language"
+          "language",
+          "voice_id"
         ]
       }
     }
   },
   "required": [
+    "provider",
     "agents"
   ]
 }

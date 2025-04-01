@@ -2,6 +2,10 @@
 
 A command-line tool for managing AI agents across different providers. This tool helps you deploy and export AI agents, making it easier to work with various AI service providers.
 
+Available providers:
+- `retell`
+- `vapi`
+
 ## Installation
 
 ```bash
@@ -13,6 +17,7 @@ npm install aidroid
 Before using the tool, make sure to set up the required environment variables:
 
 - `RETELL_API_KEY`: Your Retell API key (required for Retell provider)
+- `VAPI_API_KEY`: Your Vapi API key (required for Vapi provider)
 
 ## Available Commands
 
@@ -24,6 +29,15 @@ Deploy a model to a specified provider:
 aidroid deploy <file>
 ```
 
+File needs to be in YAML format. You're able to use `!!inc/file` to distribute configuration over mulitple files, for example:
+
+```yaml
+provider: retell
+
+agents:
+ - !!inc/file agents/my_agent.yml
+```
+
 ### Export
 
 Export agents from a specified provider to a local YAML file:
@@ -32,26 +46,7 @@ Export agents from a specified provider to a local YAML file:
 aidroid export <provider>
 ```
 
-Available providers:
-- `retell`: Export agents from Retell
-
 The exported agents will be saved to `agents.yml` in the current directory.
-
-## Agent Configuration
-
-Agents are configured with the following properties:
-- `name`: The name of the agent
-- `model`: The AI model to use
-- `temperature`: The temperature setting for the model
-- `prompt`: The general prompt for the agent
-- `begin_message`: The initial message for the agent
-
-## Development
-
-This project is built with TypeScript and uses:
-- Commander.js for CLI command handling
-- Winston for logging
-- YAML for configuration file handling
 
 ## License
 

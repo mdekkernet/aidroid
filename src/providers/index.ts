@@ -1,8 +1,9 @@
 import { ProviderNotFoundError } from '../utils/errors';
 import { RetellProvider } from './retell';
-
+import { VapiProvider } from './vapi';
 export const PROVIDERS = {
   retell: RetellProvider,
+  vapi: VapiProvider,
 };
 
 export const resolveProvider = (providerName: string) => {

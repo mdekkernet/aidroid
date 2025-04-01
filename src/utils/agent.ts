@@ -1,4 +1,4 @@
-type Language =
+export type Language =
   | 'en-US'
   | 'en-IN'
   | 'en-GB'
@@ -42,5 +42,6 @@ export interface Agent {
   prompt: string;
   begin_message: string;
   language: Language;
+  voice_id: string;
   functions: AgentFunction[];
 }

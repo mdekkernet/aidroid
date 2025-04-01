@@ -10,7 +10,7 @@ export const exportAction =
 
     const agents = await provider.exportAgents();
 
-    const document = YAML.stringify({ agents });
+    const document = YAML.stringify({ provider: providerName, agents });
 
     writeFileSync('agents.yml', document);
 

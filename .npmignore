@@ -4,3 +4,4 @@ demo
 esbuild.config.js
 .prettierrc
 .env
+.vscode
