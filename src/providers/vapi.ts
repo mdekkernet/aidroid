@@ -2,6 +2,32 @@ import { Provider } from '../utils/provider';
 import { MissingEnvironmentVariableError } from '../utils/errors';
 import { Agent, AgentFunction, Language } from '../utils/agent';
 import { VapiClient } from '@vapi-ai/server-sdk';
+import { Vapi } from '@vapi-ai/server-sdk';
+
+type VoiceProvider =
+  | 'azure'
+  | 'cartesia'
+  | 'deepgram'
+  | '11labs'
+  | 'lmnt'
+  | 'neets'
+  | 'playht'
+  | 'rime-ai'
+  | 'smallest-ai'
+  | 'tavus';
+
+const mapAgentToVapi = (agent: Agent): Vapi.CreateAssistantDto => {
+  return {
+    name: agent.name,
+    model: {
+      model: agent.model,
+      provider: 'vapi',
+      messages: [{ role: Vapi.OpenAiMessageRole.Assistant, content: agent.prompt }],
+    },
+    voice: { voiceId: agent.voice_id, provider: agent.voice_provider as VoiceProvider },
+    firstMessage: agent.begin_message,
+  };
+};
 
 const createClient = () => {
   if (!process.env.VAPI_API_KEY) {
@@ -14,7 +40,7 @@ const createClient = () => {
 };
 
 export const VapiProvider: Provider = {
-  exportAgents: async () => {
+  listAgents: async () => {
     const client = createClient();
 
     const agentsResponse = await client.assistants.list();
@@ -44,6 +70,7 @@ export const VapiProvider: Provider = {
       });
 
       return {
+        id: agent.id,
         name: agent.name,
         model: agent.model!.model,
         prompt: agent.model!.messages![0].content,
@@ -58,9 +85,15 @@ export const VapiProvider: Provider = {
     return agents;
   },
 
-  importAgents: async (agents: Agent[]) => {
+  createAgent: async (agent: Agent) => {
     const client = createClient();
 
-    return [];
+    await client.assistants.create(mapAgentToVapi(agent));
+  },
+
+  updateAgent: async (id: string, agent: Agent) => {
+    const client = createClient();
+
+    await client.assistants.update(id, mapAgentToVapi(agent));
   },
 };

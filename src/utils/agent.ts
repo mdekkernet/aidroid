@@ -36,6 +36,7 @@ export interface AgentFunction {
 }
 
 export interface Agent {
+  id: string;
   name: string;
   model: string;
   temperature?: number;
@@ -43,5 +44,6 @@ export interface Agent {
   begin_message: string;
   language: Language;
   voice_id: string;
+  voice_provider: string;
   functions: AgentFunction[];
 }

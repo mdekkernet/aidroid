@@ -1,5 +1,6 @@
 {
-  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://aidroid.mdekker.net/schemas/schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "AIDroid Schema",
   "type": "object",
   "additionalProperties": false,
@@ -11,111 +12,17 @@
         "vapi"
       ]
     },
-    "agents": {
+    "voice-agents": {
       "type": "array",
       "items": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "name": {
-            "type": "string"
-          },
-          "model": {
-            "type": "string",
-            "enum": [
-              "gpt-4o",
-              "gpt-4o-mini",
-              "gpt-3.5-turbo",
-              "gpt-3.5-turbo-16k",
-              "gpt-3.5-turbo-16k-mini"
-            ]
-          },
-          "temperature": {
-            "type": "number"
-          },
-          "prompt": {
-            "type": "string"
-          },
-          "begin_message": {
-            "type": "string"
-          },
-          "voice_provider": {
-            "type": "string"
-          },
-          "language": {
-            "type": "string",
-            "enum": [
-              "en-US",
-              "en-IN",
-              "en-GB",
-              "de-DE",
-              "es-ES",
-              "es-419",
-              "hi-IN",
-              "ja-JP",
-              "pt-PT",
-              "pt-BR",
-              "fr-FR",
-              "zh-CN",
-              "ru-RU",
-              "it-IT",
-              "ko-KR",
-              "nl-NL",
-              "pl-PL",
-              "tr-TR",
-              "vi-VN",
-              "multi"
-            ]
-          },
-          "functions": {
-            "type": "array",
-            "items": {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string",
-                  "enum": [
-                    "end_call",
-                    "transfer_call",
-                    "check_availability_cal",
-                    "book_appointment_cal",
-                    "press_digit",
-                    "custom"
-                  ]
-                },
-                "name": {
-                  "type": "string"
-                },
-                "description": {
-                  "type": "string"
-                },
-                "url": {
-                  "type": "string"
-                }
-              },
-              "required": [
-                "type",
-                "name",
-                "description"
-              ]
-            }
-          },
-          "voice_id": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "name",
-          "model",
-          "prompt",
-          "language",
-          "voice_id"
-        ]
+        "$ref": "https://aidroid.mdekker.net/schemas/voice-agent.json"
       }
+    },
+    "voice-agents-dir": {
+      "type": "string"
     }
   },
   "required": [
-    "provider",
-    "agents"
+    "provider"
   ]
 }

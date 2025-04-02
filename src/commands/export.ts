@@ -1,6 +1,6 @@
 import { Logger } from 'winston';
 import { resolveProvider } from '../providers';
-import YAML from 'yaml';
+import YAML from 'js-yaml';
 import { writeFileSync } from 'node:fs';
 
 export const exportAction =
@@ -8,9 +8,9 @@ export const exportAction =
   async (providerName: string) => {
     const provider = resolveProvider(providerName);
 
-    const agents = await provider.exportAgents();
+    const voiceAgents = await provider.listAgents();
 
-    const document = YAML.stringify({ provider: providerName, agents });
+    const document = YAML.dump({ provider: providerName, 'voice-agents': voiceAgents });
 
     writeFileSync('agents.yml', document);
 

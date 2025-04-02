@@ -1,6 +1,7 @@
 import { Agent } from './agent';
 
 export interface Provider {
-  exportAgents(): Promise<Agent[]>;
-  importAgents(agents: Agent[]): Promise<void>;
+  listAgents(): Promise<Agent[]>;
+  updateAgent(id: string, agent: Agent): Promise<void>;
+  createAgent(agent: Agent): Promise<void>;
 }
