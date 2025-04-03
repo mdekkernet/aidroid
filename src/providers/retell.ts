@@ -1,7 +1,7 @@
 import Retell from 'retell-sdk';
 import { Provider } from '../utils/provider';
 import { MissingEnvironmentVariableError } from '../utils/errors';
-import { Agent, AgentFunction } from '../utils/agent';
+import { Agent, AgentFunction } from '../types/agent';
 import { AgentCreateParams } from 'retell-sdk/resources/agent';
 
 const createClient = () => {

@@ -1,4 +1,4 @@
-import { Agent } from './agent';
+import { Agent } from '../types/agent';
 
 export interface Provider {
   listAgents(): Promise<Agent[]>;

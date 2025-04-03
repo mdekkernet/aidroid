@@ -20,6 +20,33 @@
     },
     "voice-agents-dir": {
       "type": "string"
+    },
+    "tools": {
+      "type": "array",
+      "items": {
+        "$ref": "https://aidroid.mdekker.net/schemas/tool.json"
+      }
+    },
+    "tools-dir": {
+      "type": "string"
+    },
+    "knowledge": {
+      "type": "array",
+      "items": {
+        "$ref": "https://aidroid.mdekker.net/schemas/knowledge.json"
+      }
+    },
+    "knowledge-dir": {
+      "type": "string"
+    },
+    "workflows": {
+      "type": "array",
+      "items": {
+        "$ref": "https://aidroid.mdekker.net/schemas/workflow.json"
+      }
+    },
+    "workflows-dir": {
+      "type": "string"
     }
   },
   "required": [

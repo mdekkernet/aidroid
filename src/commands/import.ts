@@ -5,9 +5,11 @@ import Ajv from 'ajv/dist/2020';
 import { resolveProvider } from '../providers';
 import schema from '../../schema/schema.json';
 import voiceAgentSchema from '../../schema/voice-agent.json';
-import { DroidConfig } from '../utils/config';
+import toolSchema from '../../schema/tool.json';
+import knowledgeSchema from '../../schema/knowledge.json';
+import workflowSchema from '../../schema/workflow.json';
+import { DroidConfig } from '../types/config';
 import p from 'node:path';
-import { Agent as VoiceAgent } from '../utils/agent';
 
 export const importAction =
   ({ logger }: { logger: Logger }) =>
@@ -25,6 +27,9 @@ export const importAction =
 
     const ajv = new Ajv({ allErrors: true });
     ajv.addSchema(voiceAgentSchema, 'https://aidroid.mdekker.net/schemas/voice-agent.json');
+    ajv.addSchema(toolSchema, 'https://aidroid.mdekker.net/schemas/tool.json');
+    ajv.addSchema(knowledgeSchema, 'https://aidroid.mdekker.net/schemas/knowledge.json');
+    ajv.addSchema(workflowSchema, 'https://aidroid.mdekker.net/schemas/workflow.json');
 
     const valid = ajv.validate(schema, document);
 
@@ -36,26 +41,38 @@ export const importAction =
 
     const provider = resolveProvider(document.provider);
 
-    let agents = document['voice-agents'];
-    const agentsDir = document['voice-agents-dir'];
+    const agents = document['voice-agents'] || [];
+    const tools = document['tools'] || [];
+    const knowledge = document['knowledge'] || [];
+    const workflows = document['workflows'] || [];
 
-    if (agentsDir) {
-      const files = readdirSync(p.join(process.cwd(), agentsDir));
+    const importDirs = {
+      'voice-agents-dir': { target: agents, schema: voiceAgentSchema },
+      'tools-dir': { target: tools, schema: toolSchema },
+      'knowledge-dir': { target: knowledge, schema: knowledgeSchema },
+      'workflows-dir': { target: workflows, schema: workflowSchema },
+    };
 
-      agents = files.map(file => {
-        const subDocument = load(readFileSync(p.join(process.cwd(), agentsDir, file), 'utf8'));
+    Object.entries(importDirs).forEach(([key, { target, schema }]) => {
+      const dir = (document as any)[key];
+      const files = readdirSync(p.join(process.cwd()));
 
-        const valid = ajv.validate(voiceAgentSchema, subDocument);
+      (target as any[]).concat(
+        files.map(file => {
+          const subDocument = load(readFileSync(p.join(process.cwd(), dir, file), 'utf8'));
 
-        if (!valid) {
-          logger.error(`Validation errors: ${ajv.errorsText()}`);
+          const valid = ajv.validate(schema, subDocument);
 
-          process.exit(1);
-        }
+          if (!valid) {
+            logger.error(`Validation errors: ${ajv.errorsText()}`);
 
-        return subDocument as VoiceAgent;
-      });
-    }
+            process.exit(1);
+          }
+
+          return subDocument;
+        })
+      );
+    });
 
     logger.info(`Importing ${agents.length} agents`);
 
@@ -72,6 +89,10 @@ export const importAction =
         await provider.createAgent(agent);
       }
     }
+
+    // TODO: Add tools
+    // TODO: Add knowledge
+    // TODO: Add workflows
 
     logger.info(`Deployment of ${fileName} completed`);
   };

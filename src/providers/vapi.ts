@@ -1,6 +1,6 @@
 import { Provider } from '../utils/provider';
 import { MissingEnvironmentVariableError } from '../utils/errors';
-import { Agent, AgentFunction, Language } from '../utils/agent';
+import { Agent, AgentFunction, Language } from '../types/agent';
 import { VapiClient } from '@vapi-ai/server-sdk';
 import { Vapi } from '@vapi-ai/server-sdk';
 
