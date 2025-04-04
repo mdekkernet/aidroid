@@ -11,7 +11,7 @@ dotenv.config();
 
 const program = new Command();
 
-program.name('aidroid').description('Tools for Agentic AI development').version('0.0.1');
+program.name('aidroid').description('Tools for Agentic AI development').version('0.0.2');
 
 program.addCommand(
   new Command()

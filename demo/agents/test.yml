@@ -1,5 +1,6 @@
-# yaml-language-server: $schema: https://aidroid.mdekker.net/schemas/voice-agent.json
+# yaml-language-server: $schema=https://aidroid.mdekker.net/schemas/voice-agent.json
 name: English Inbound
+model: gpt-4o-mini
 prompt: >-
   ##🎙️ "Jan's" personality:
 
@@ -9,7 +10,7 @@ prompt: >-
 
   - Conveys competence and understanding.
 begin_message: >-
-  Hello, this is Jan from Garage. Thank you for your call. How can I help
+  Hello, this is Jan from the Garage. Thank you for your call. How can I help
   you?
 language: en-US
 voice_provider: vapi
